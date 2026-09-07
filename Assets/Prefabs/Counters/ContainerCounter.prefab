@@ -308,6 +308,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ContainerCounter
       objectReference: {fileID: 0}
+    - target: {fileID: 6469687145593214518, guid: ac964a67cdc32584aab07a6cd2fe1b21,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6469687145593214519, guid: ac964a67cdc32584aab07a6cd2fe1b21,
         type: 3}
       propertyPath: m_RootOrder
@@ -405,7 +410,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   counterTopPoint: {fileID: 2671786362394468946}
-  kitchenObjectSO: {fileID: 11400000, guid: 0a615e1c7288587449871fd434e85ab6, type: 2}
+  kitchenObjectSO: {fileID: 11400000, guid: 8fd6ae235d3fd22418d2f744dee1a974, type: 2}
 --- !u!4 &3312382668685677919 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6469687145593214519, guid: ac964a67cdc32584aab07a6cd2fe1b21,

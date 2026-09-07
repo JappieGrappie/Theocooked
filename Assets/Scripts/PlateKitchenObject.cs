@@ -45,4 +45,20 @@ public class PlateKitchenObject : KitchenObject {
         return kitchenObjectSOList;
     }
 
+    public bool HasExactIngredients(List<KitchenObjectSO> requiredIngredients) {
+        // Check if the plate has the same number of ingredients
+        if (kitchenObjectSOList.Count != requiredIngredients.Count) {
+            return false;
+        }
+
+        // Check if all required ingredients are present
+        foreach (KitchenObjectSO ingredient in requiredIngredients) {
+            if (!kitchenObjectSOList.Contains(ingredient)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
 }

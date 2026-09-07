@@ -99,11 +99,35 @@ public class StoveCounter : BaseCounter, IHasProgress {
             // There is no KitchenObject here
             if (player.HasKitchenObject()) {
                 // Player is carrying something
-                if (HasRecipeWithInput(player.GetKitchenObject().GetKitchenObjectSO())) {
+                KitchenObjectSO playerKitchenObjectSO = player.GetKitchenObject().GetKitchenObjectSO();
+                if (player.GetKitchenObject().TryGetPlate(out PlateKitchenObject plateKitchenObject)) {
+                    // Player is holding a Plate
+
+                    foreach (FryingRecipeSO recipe in fryingRecipeSOArray) {
+                        if (recipe.requiresPlate && plateKitchenObject.HasExactIngredients(recipe.requiredPlateIngredients)) {
+                            // Plate has exactly the required ingredients
+                            player.GetKitchenObject().SetKitchenObjectParent(this);
+
+                            fryingRecipeSO = recipe;
+                            state = State.Frying;
+                            fryingTimer = 0f;
+
+                            OnStateChanged?.Invoke(this, new OnStateChangedEventArgs {
+                                state = state
+                            });
+
+                            OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressChangedEventArgs {
+                                progressNormalized = fryingTimer / fryingRecipeSO.fryingTimerMax
+                            });
+
+                            return;
+                        }
+                    }
+                } else if (HasRecipeWithInput(playerKitchenObjectSO)) {
                     // Player carrying something that can be Fried
                     player.GetKitchenObject().SetKitchenObjectParent(this);
 
-                    fryingRecipeSO = GetFryingRecipeSOWithInput(GetKitchenObject().GetKitchenObjectSO());
+                    fryingRecipeSO = GetFryingRecipeSOWithInput(playerKitchenObjectSO);
 
                     state = State.Frying;
                     fryingTimer = 0f;
@@ -116,13 +140,10 @@ public class StoveCounter : BaseCounter, IHasProgress {
                         progressNormalized = fryingTimer / fryingRecipeSO.fryingTimerMax
                     });
                 }
-            } else {
-                // Player not carrying anything
             }
         } else {
             // There is a KitchenObject here
             if (player.HasKitchenObject()) {
-                // Player is carrying something
                 if (player.GetKitchenObject().TryGetPlate(out PlateKitchenObject plateKitchenObject)) {
                     // Player is holding a Plate
                     if (plateKitchenObject.TryAddIngredient(GetKitchenObject().GetKitchenObjectSO())) {

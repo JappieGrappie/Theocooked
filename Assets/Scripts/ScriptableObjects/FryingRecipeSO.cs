@@ -10,5 +10,6 @@ public class FryingRecipeSO : ScriptableObject {
     public KitchenObjectSO output;
     public float fryingTimerMax;
 
-
+    public bool requiresPlate;
+    public List<KitchenObjectSO> requiredPlateIngredients;
 }
